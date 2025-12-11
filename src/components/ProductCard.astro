@@ -1,0 +1,89 @@
+---
+const { name, description, imageUrl } = Astro.props;
+---
+<div class="product-card">
+  <img 
+  src={imageUrl} 
+  alt={name} 
+  loading="lazy" 
+  class="product-image"
+  onclick="openLightbox(this.src)"
+   />
+
+  <div class="product-info">
+    <h3>{name}</h3>
+    <p>{description}</p>
+
+    <a 
+      href={`https://wa.me/+5358800673?text=Hola!%20Estoy%20interesado%20en%20el%20producto:%20${name}`}
+      class="btn-contact"
+      target="_blank"
+    >
+      ¡Preguntar por WhatsApp!
+    </a>
+  </div>
+</div>
+
+<style>
+  .product-card {
+    border: 1px solid #eee;
+    border-radius: 10px;
+    overflow: visible;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+
+    display: flex;
+    flex-direction: column;
+
+    /* FULL RESPONSIVE */
+    width: 100%;
+  }
+
+  .product-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.3s ease, height 0.3s ease;
+  }
+
+  .product-card:hover .product-image {
+    /* Al hacer hover en la tarjeta, permitimos que la imagen use su altura natural */
+    height: auto; 
+    /* Opcional: Puedes agregar un ligero escalado para un efecto "pop-out" */
+    transform: scale(1.02); 
+    object-fit: contain;
+  }
+
+  @media (min-width: 768px) {
+    .product-image {
+      height: 220px;
+    }
+  }
+
+  .product-info {
+    padding: 15px;
+  }
+
+  h3 {
+    margin-top: 0;
+    margin-bottom: 8px;
+    color: #C73B8A;
+  }
+
+  .btn-contact {
+    display: block;
+    margin-top: 12px;
+    padding: 12px;
+    background-color: #4A90E2;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: bold;
+    transition: opacity 0.2s;
+  }
+
+  .btn-contact:hover {
+    opacity: 0.9;
+  }
+</style>

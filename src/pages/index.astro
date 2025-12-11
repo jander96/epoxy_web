@@ -1,11 +1,180 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import ProductCard from '../components/ProductCard.astro';
+import { getProducts } from '../service/products';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+
+
+const products = await getProducts();
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Resina Épóxica - Creaciones Únicas">
+  <main>
+    <div class="logo">
+      <a href="/">Rosa Art</a>
+    </div>
+    <section class="hero-section">
+      <h1>✨ Arte Funcional en Resina ✨</h1>
+      <p>Creaciones únicas hechas a mano, perfectas para ti o para regalar.</p>
+    </section>
+
+    <h2 class="gallery-title">Nuestra Galería de Productos</h2>
+
+    <section class="products-gallery">
+      {products.map(product => (
+        <ProductCard 
+          name={product.name}
+          description={product.description}
+          imageUrl={product.image_url}
+        />
+      ))}
+    </section>
+
+    <section class="contact-section">
+      <h2>¿Tienes una idea personalizada?</h2>
+
+      <a 
+        href="https://wa.me/+5358800673?text=Hola!%20Quisiera%20cotizar%20un%20diseño%20personalizado."
+        class="btn-whatsapp"
+        target="_blank"
+      >
+        📲 ¡Diseño Personalizado por WhatsApp!
+      </a>
+
+      <h3>Síguenos</h3>
+      <div class="social-links">
+        <a href="URL_INSTAGRAM" target="_blank" class="social-icon instagram">Instagram</a>
+        <a href="URL_FACEBOOK" target="_blank" class="social-icon facebook">Facebook</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>&copy; {new Date().getFullYear()} Resina Épóxica by Rosa Maria Olivera Urgelles. Todos los derechos reservados.</p>
+  </footer>
 </Layout>
+
+<style>
+  main {
+    max-width: 100vw;
+    /* Si usas position: absolute en el logo, main podría necesitar position: relative;
+       pero lo dejamos comentado por ahora si Layout ya establece el contexto. */
+    /* position: relative; */ 
+  }
+
+  /* ESTILOS PARA EL LOGO */
+  .logo {
+    position: absolute; /* Coloca el logo con respecto al contenedor principal */
+    top: 15px;
+    left: 20px;
+    z-index: 10; /* Asegura que esté por encima de otros elementos */
+    font-size: 1.5em;
+    font-weight: bold;
+    font-family: 'Georgia', serif;
+    letter-spacing: 1px;
+  }
+
+  .logo a {
+    text-decoration: none;
+    color: #C73B8A; /* Color de acento */
+    transition: color 0.3s;
+  }
+
+  .logo a:hover {
+    color: #4a4a4a;
+  }
+  /* FIN ESTILOS LOGO */
+
+  .hero-section {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: #fce7f3;
+    color: #4a4a4a;
+    /* Ajuste de padding-top para dar espacio al logo y evitar que lo cubra */
+    padding-top: 60px; 
+  }
+
+  .hero-section h1 {
+    color: #C73B8A;
+  }
+
+  .gallery-title {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  /* RESPONSIVE GRID */
+  .products-gallery {
+    display: grid;
+    grid-template-columns: 1fr; /* MOVIL */
+    gap: 25px;
+    padding: 20px;
+  }
+
+  @media (min-width: 768px) {
+    .products-gallery {
+      grid-template-columns: repeat(2, 1fr); /* TABLET */
+      padding: 30px;
+      gap: 35px;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .products-gallery {
+      grid-template-columns: repeat(3, 1fr); /* ESCRITORIO */
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+  }
+
+  .contact-section {
+    padding: 40px 20px;
+    text-align: center;
+    background-color: #f0f0f0;
+    margin-top: 20px;
+  }
+
+  .btn-whatsapp {
+    display: block;
+    width: 90%;
+    max-width: 300px;
+    margin: 20px auto;
+    padding: 15px;
+    background-color: #25D366;
+    color: white;
+    font-weight: bold;
+    border-radius: 50px;
+  }
+
+  .social-links {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .social-icon {
+    padding: 8px 15px;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    display: inline-block;
+  }
+
+  .instagram {
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+  }
+
+  .facebook {
+    background-color: #4267B2;
+  }
+
+  footer {
+    text-align: center;
+    padding: 15px;
+    background-color: #333;
+    color: #ccc;
+  }
+</style>
